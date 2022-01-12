@@ -1,0 +1,8 @@
+Flask==2.0.2
+Jinja2==3.0.3
+mypy==0.910
+mypy-extensions==0.4.3
+types-Flask==1.1.5
+types-Jinja2==2.11.8
+typing-extensions==4.0.0
+

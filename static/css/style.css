@@ -1,0 +1,47 @@
+/* generic and common elements styling */
+
+html {
+    min-height: 100%;
+}
+
+body {
+    font-family: "ShopifySans", "Shopify Sans", "OpenSauceOneRegular", "HK Grotesk",
+                 "Poppins", "Poppins Latin", "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    background-color: #fbf7ed;
+    color: #212326;
+    min-height: 100%;
+}
+
+.text-exbold {
+    font-family: "OpenSauceOneExtraBold", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+}
+
+.text-bold {
+    font-family: "OpenSauceOneBold", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.text-light {
+    font-family: "OpenSauceOneLight", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
