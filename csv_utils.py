@@ -10,7 +10,8 @@ import csv
 def csv_to_list(path: str) -> list[dict]:
     """
     Given a path to a CSV file, return a list of dictionaries representing
-    the contents of the CSV file.
+    the contents of the CSV file, with keys being the headers, and values
+    being the contents of each row.
     """
     with open(path, 'r') as file:
         reader = csv.DictReader(file)
