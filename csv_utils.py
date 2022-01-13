@@ -5,6 +5,7 @@ with CSV files.
 """
 
 import csv
+from sqlite3 import Row
 
 
 def csv_to_list(path: str) -> list[dict]:
@@ -16,3 +17,9 @@ def csv_to_list(path: str) -> list[dict]:
     with open(path, 'r') as file:
         reader = csv.DictReader(file)
         return list(reader)
+
+
+def sqlite_rows_to_csv(results: Row) -> None:
+    """
+
+    """

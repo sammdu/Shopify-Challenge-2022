@@ -25,15 +25,25 @@ class Products:
         """
         Configure the path to the SQLite database file, defaults to in-memory storage.
         Configure the name of the products table, defaults to 'products'.
+        WARNING: table_name is not sanitized!
         """
         self.db_path = db_path
         self.table_name = table_name
 
-    def _get_conn_cur(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+    def _get_conn_cur(
+        self,
+        use_row_factory: bool = False
+    ) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         """
         Return SQLite database connaction and cursor objects based on the database path.
+        If use_row_factory is set to True, then use sqlite3.Row as the connection's row
+        factory.
         """
         conn: sqlite3.Connection = sqlite3.connect(self.db_path)
+
+        if use_row_factory:
+            conn.row_factory = sqlite3.Row
+
         cur: sqlite3.Cursor = conn.cursor()
         return conn, cur
 
@@ -92,10 +102,29 @@ class Products:
         # close the database connection
         conn.close()
 
-    def export_all(self) -> list[dict]:
+    def export_all(self) -> list[sqlite3.Row]:
         """
 
         """
+        # create a connection to the database and obtain a cursor
+        conn, cur = self._get_conn_cur(use_row_factory=True)
+
+        # fetch all products
+        stmt = f'SELECT * FROM {self.table_name};'
+        try:
+            cur.execute(stmt)
+            results = cur.fetchall()
+        except sqlite3.Error as error:
+            print(
+                '---\nSQLite',
+                f'\nError occurred while exporting all products from table ' +
+                f'`{self.table_name}`:\n{error}\n---'
+            )
+
+        # close the database connection
+        conn.close()
+
+        return results
 
     def export_specific(self, skus: list) -> list[dict]:
         """
@@ -109,3 +138,5 @@ if __name__ == '__main__':
     p = Products(db_path='products.db')
     p.create_table()
     p.import_data(data=data)
+    results = p.export_all()
+    print([dict(i) for i in results])
