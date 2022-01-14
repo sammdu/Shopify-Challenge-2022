@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.9
 """
-Utility functions that allows for the project-relevant interactions
-with CSV files.
+Utility functions that allow for the project-relevant interactions with CSV files.
 """
 
 import csv
