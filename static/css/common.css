@@ -1,23 +1,23 @@
 /* text styling */
 
 .text-exbold {
-    font-family: "OpenSauceOneExtraBold", "HK Grotesk", "Poppins", "Poppins Latin",
-                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
-                 Helvetica, Arial, sans-serif;
+    font-family: "OpenSauceOneExtraBold", "HK Grotesk ExtraBold", "Poppins ExtraBold",
+                 "Poppins Latin ExtraBold", "Segoe UI", "SF Pro Text", "Roboto Black",
+                 "Ubuntu", Helvetica, Arial, sans-serif;
     font-weight: bolder;
 }
 
 .text-bold {
     font-family: "OpenSauceOneBold", "HK Grotesk", "Poppins", "Poppins Latin",
-                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 "Segoe UI", "SF Pro Text", "Roboto", "Ubuntu",
                  Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
 
 .text-light {
-    font-family: "OpenSauceOneLight", "HK Grotesk", "Poppins", "Poppins Latin",
-                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
-                 Helvetica, Arial, sans-serif;
+    font-family: "OpenSauceOneLight", "HK Grotesk Light", "Poppins Light",
+                 "Poppins Latin Light", "Segoe UI Light", "SF Pro Text", "Roboto Light",
+                 "Ubuntu", Helvetica, Arial, sans-serif;
     font-weight: normal;
 }
 
@@ -45,11 +45,6 @@ img.logo-small {
     width: auto
 }
 
-button img {
-    height: 1.2em;
-    width: auto;
-}
-
 /* button styling */
 
 button {
@@ -60,5 +55,42 @@ button {
     justify-content: center;
     align-items: center;
     column-gap: 0.5em;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button img {
+    height: 1.2em;
+    width: auto;
+    transition: all 0.2s ease;
+}
+
+button.btn-green {
+    background-color: #008060;
+    color: #ffffff;
+}
+
+button.btn-green:hover {
+    background-color: #004c3f;
+}
+
+button.btn-red {
+    background-color: #df2040;
+    color: #ffffff;
+}
+
+button.btn-red:hover {
+    background-color: #9c162d;
+}
+
+button.btn-purple {
+    background-color: #5e6ebf;
+    color: #ffffff;
+}
+
+button.btn-purple:hover {
+    background-color: #202e78;
 }
