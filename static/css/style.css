@@ -80,7 +80,7 @@ section.dash nav {
     align-items: center;
     flex-wrap: wrap-reverse;
     column-gap: 1rem;
-    row-gap: 1rem;
+    row-gap: 1.5rem;
 }
 
 section.dash nav span {
@@ -100,6 +100,11 @@ span.selected-ops button {
 
 span.impex-ops {
     justify-content: flex-end;
+    row-gap: 1rem !important;
+}
+
+span.impex-ops button {
+    color: #008060;
 }
 
 span.impex-ops button {
