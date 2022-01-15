@@ -1,0 +1,64 @@
+/* text styling */
+
+.text-exbold {
+    font-family: "OpenSauceOneExtraBold", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+}
+
+.text-bold {
+    font-family: "OpenSauceOneBold", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.text-light {
+    font-family: "OpenSauceOneLight", "HK Grotesk", "Poppins", "Poppins Latin",
+                 "Segoe UI", "SF Pro", "Roboto", "Ubuntu",
+                 Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 2.0rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+/* image styling */
+
+img.logo-large {
+    height: 2.5rem;
+    width: auto
+}
+
+img.logo-small {
+    height: 1.5rem;
+    width: auto
+}
+
+button img {
+    height: 1.2em;
+    width: auto;
+}
+
+/* button styling */
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.5em;
+    transition: all 0.25s ease;
+}

@@ -12,11 +12,29 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://fontlibrary.org//face/open-sauce-one" type="text/css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/minireset.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Scripts -->
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}" defer></script>
 </head>
 <body>
+    <main>
+        <header>
+            <div class="logo-row">
+                <img class="logo-large" src="{{ url_for('static', filename='icons/shopify.svg') }}" alt="Shopify">
+                <img class="logo-small" src="{{ url_for('static', filename='icons/x.svg') }}" alt="x">
+                <a href="https://www.linkedin.com/in/sammdu/" target="_blank" rel="noreferrer noopener" style="display: inline-flex;">
+                    <img class="logo-large" src="{{ url_for('static', filename='icons/samm.svg') }}" alt="Samm Du">
+                </a>
+            </div>
+            <h1 class="text-exbold">Inventory Management System</h1>
+            <h3>Shopify 2022 Summer Internship Technical Challenge</h3>
+        </header>
+        <section class="dash">
 
+            {% include 'products.html' %}
+
+        </section>
+    </main>
 </body>
 </html>

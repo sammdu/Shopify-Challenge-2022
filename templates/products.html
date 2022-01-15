@@ -1,0 +1,29 @@
+{% block products %}
+<!-- {% for item in inventory.get_all() %}
+    <h3>{{ dict(item) }}</h3>
+{% endfor %} -->
+
+<nav>
+    <span class="selected-ops">
+        <button type="button" name="add-product">Add product</button>
+        <button type="button" name="del-selected">Delete Selected</button>
+        <button type="button" name="exp-selected">Export Selected</button>
+    </span>
+    <span class="impex-ops">
+        <button type="button" name="imp-all">
+            <img src="{{ url_for('static', filename='icons/import.svg') }}" alt="Import">
+            Import from CSV
+        </button>
+        <button type="button" name="exp-all">
+            <img src="{{ url_for('static', filename='icons/export.svg') }}" alt="Export">
+            Export all as CSV
+        </button>
+    </span>
+</nav>
+
+<table>
+    <tbody>
+
+    </tbody>
+</table>
+{% endblock %}
