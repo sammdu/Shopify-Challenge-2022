@@ -2,10 +2,10 @@
 <table>
     <thead class="text-bold">
         <tr>
-            <th scope="col"><input type="checkbox" name="select-all"></th>
-            <th scope="col">Product Name</th>
-            <th scope="col">SKU</th>
-            <th scope="col" name=>Quantity</th>
+            <th class="col-chk" scope="col"><input type="checkbox" name="select-all"></th>
+            <th class="col-nme" scope="col">Product Name</th>
+            <th class="col-sku" scope="col">SKU</th>
+            <th class="col-qty" scope="col">Quantity</th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
                 {{ item['sku'] }}
             </td>
 
-            <td class="col-qty" scope="row" data-label="Quantity">
+            <td class="cell-qty" scope="row" data-label="Quantity">
                 <span class="qty-num">{{ item['quantity'] }}</span>
                 <span class="qty-adj">
                     <button class="qty-mode" type="button" name="qty-add">
