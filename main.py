@@ -41,4 +41,5 @@ if __name__ == '__main__':
             INVENTORY.import_data(data=initial_data)
 
     # run the Flask development server
-    app.run(threaded=True, port=5000)
+    app.config['TEMPLATES_AUTO_RELOAD'] = True  # reload the dev server upon HTML changes
+    app.run(threaded=True, port=5000, use_reloader=True)

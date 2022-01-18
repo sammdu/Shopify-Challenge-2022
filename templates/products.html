@@ -1,13 +1,9 @@
 {% block products %}
-<!-- {% for item in inventory.get_all() %}
-    <h3>{{ dict(item) }}</h3>
-{% endfor %} -->
-
 <nav>
     <span class="selected-ops">
         <button class="btn-green" type="button" name="add-product">Add product</button>
-        <button class="btn-red" type="button" name="del-selected">Delete Selected</button>
-        <button class="btn-purple" type="button" name="exp-selected">Export Selected</button>
+        <button class="btn-red" type="button" name="del-selected">Delete selected</button>
+        <button class="btn-purple" type="button" name="exp-selected">Export selected</button>
     </span>
     <span class="impex-ops text-bold">
         <button type="button" name="imp-all">
@@ -21,9 +17,9 @@
     </span>
 </nav>
 
-<table>
-    <tbody>
+<div class="inventory">
 
-    </tbody>
-</table>
+    {% include 'inventory.html' %}
+
+</div>
 {% endblock %}

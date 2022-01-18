@@ -45,6 +45,12 @@ img.logo-small {
     width: auto
 }
 
+/* input styling */
+
+input[type='number'] {
+    width: 5rem;
+}
+
 /* button styling */
 
 button {
@@ -78,12 +84,12 @@ button.btn-green:hover {
 }
 
 button.btn-red {
-    background-color: #df2040;
+    background-color: #d12e49;
     color: #ffffff;
 }
 
 button.btn-red:hover {
-    background-color: #9c162d;
+    background-color: #932033;
 }
 
 button.btn-purple {
@@ -93,4 +99,12 @@ button.btn-purple {
 
 button.btn-purple:hover {
     background-color: #202e78;
+}
+
+button.btn-disabled,
+button.btn-disabled:hover,
+button.btn-disabled:active {
+    background-color: #d7d8db;
+    box-shadow: none !important;
+    cursor: not-allowed;
 }
