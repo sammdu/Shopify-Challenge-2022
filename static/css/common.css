@@ -49,6 +49,7 @@ img.logo-small {
 
 input[type='number'] {
     width: 5rem;
+    height: 100%;
 }
 
 /* button styling */
@@ -75,36 +76,36 @@ button img {
 }
 
 button.btn-green {
-    background-color: #008060;
+    background-color: #008060 !important;
     color: #ffffff;
 }
 
 button.btn-green:hover {
-    background-color: #004c3f;
+    background-color: #004c3f !important;
 }
 
 button.btn-red {
-    background-color: #d12e49;
+    background-color: #d12e49 !important;
     color: #ffffff;
 }
 
 button.btn-red:hover {
-    background-color: #932033;
+    background-color: #932033 !important;
 }
 
 button.btn-purple {
-    background-color: #5e6ebf;
+    background-color: #5e6ebf !important;
     color: #ffffff;
 }
 
 button.btn-purple:hover {
-    background-color: #202e78;
+    background-color: #202e78 !important;
 }
 
 button.btn-disabled,
 button.btn-disabled:hover,
 button.btn-disabled:active {
-    background-color: #d7d8db;
+    background-color: #d7d8db !important;
     box-shadow: none !important;
     cursor: not-allowed;
 }

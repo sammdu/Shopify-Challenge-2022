@@ -11,18 +11,18 @@
     <tbody>
         {% for item in inventory.get_all() %}
         <tr>
-            <td scope="row" data-label="">
+            <td class="cell-chk" scope="row" data-label="">
                 <input type="checkbox" name="select-item">
             </td>
 
-            <td scope="row" data-label="Product Name">
+            <td class="cell-nme" scope="row" data-label="Product Name">
                 {{ item['name'] }}
                 <button type="button" name="edit-name">
                     <img src="{{ url_for('static', filename='icons/edit.svg') }}" alt="edit">
                 </button>
             </td>
 
-            <td scope="row" data-label="SKU">
+            <td class="cell-sku" scope="row" data-label="SKU">
                 {{ item['sku'] }}
             </td>
 
@@ -39,7 +39,7 @@
                         Set
                     </button>
                     <input type="number" name="quantity">
-                    <button type="button" name="qty-submit">
+                    <button class="btn-purple" type="button" name="qty-submit">
                         <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
                     </button>
                 </span>
