@@ -239,6 +239,7 @@ div.inventory table td.cell-nme button:focus img {
 div.inventory table span.qty-adj button {
     height: 100%;
     padding: 0 0.3rem;
+    font-size: 0.9em;
 }
 
 div.inventory table span.qty-adj button img {

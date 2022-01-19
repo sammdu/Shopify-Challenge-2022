@@ -13,11 +13,11 @@ Main application entry point. Serves the following endpoints:
     -
 """
 # external libraries
-from flask import Flask, render_template, request, Response, make_response, jsonify, send_file
+from flask import Flask, render_template, request, Response, make_response, send_file
 from pathlib import Path
 
 # internal modules
-from modules.csv_utils import csv_to_list, sqlite_rows_to_csv
+from modules.csv_utils import csv_to_list
 from modules.products import Products
 import modules.services as services
 

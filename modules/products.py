@@ -19,7 +19,9 @@ class Products:
         - Products.get_all() -> list[sqlite3.Row]
         - Products.get_specific(skus: list) -> list[sqlite3.Row]
         - Products.add_product(sku: str, name: str, quantity: int) -> None
-        - ...
+        - Products.delete_products(skus: list[str]) -> None
+        - Products.change_name(sku: str, new_name: str)
+        - Products.update_quantity(sku: str, operation: str, count: int)
     """
 
     db_path: str       # path to a SQLite database file
@@ -191,6 +193,40 @@ class Products:
         """
         """
 
+    def delete_products(self, skus: list[str]) -> None:
+        """
+        """
+        # create a connection to the database and obtain a cursor
+        conn, cur = self._get_conn_cur()
+
+        # SQL statement to delete specific products identified by the given skus
+        placeholders = ','.join('?' * len(skus))  # pre-set correct number of placeholders
+        stmt = f'DELETE FROM {self.table_name} WHERE sku IN ({placeholders});'
+
+        # attempt to execute the SQL statement and fetch results
+        try:
+            cur.execute(stmt, skus)
+            conn.commit()
+        except sqlite3.Error as error:
+            print(self._sqlite_error_msg(
+                context='deleting specific products',
+                error=error,
+                table_name=self.table_name,
+                extra=f'Attempted to delete products: {skus}'
+            ))
+
+        # close the database connection
+        conn.close()
+
+    def change_name(self, sku: str, new_name: str) -> None:
+        """
+        """
+
+    def update_quantity(self, sku: str, operation: str, count: int) -> None:
+        """
+        """
+        assert operation in {'add', 'subtract', 'set'}
+
 
 if __name__ == '__main__':
     from csv_utils import csv_to_list
@@ -200,6 +236,11 @@ if __name__ == '__main__':
     p.import_data(data=data)
 
     # p.add_product()
+
+    specifics = p.get_specific(['449862', '502318'])
+    print([dict(i) for i in specifics])
+
+    p.delete_products(['449862'])
 
     specifics = p.get_specific(['449862', '502318'])
     print([dict(i) for i in specifics])
