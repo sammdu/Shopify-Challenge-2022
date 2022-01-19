@@ -235,7 +235,7 @@ class Products:
             conn.commit()
         except sqlite3.Error as error:
             print(self._sqlite_error_msg(
-                context='changing product name for sku:{sku}',
+                context=f'changing product name for sku: {sku}',
                 error=error,
                 table_name=self.table_name,
                 extra=f'Given new name: {new_name}'
@@ -246,8 +246,42 @@ class Products:
 
     def update_quantity(self, sku: str, operation: str, count: int) -> None:
         """
+        Update the quantity of the product identified by `sku` by either adding,
+        subtracting, or setting the quantity to the given `count`.
         """
         assert operation in {'add', 'subtract', 'set'}
+
+        # create a connection to the database and obtain a cursor
+        conn, cur = self._get_conn_cur()
+
+        if operation == 'set':
+            # SQL statement to set the specified product's quantity to the given count
+            stmt = f'UPDATE {self.table_name} SET quantity = :qty WHERE sku = :sku;'
+        elif operation == 'add':
+            # SQL statement to increase the specified product's quantity by the given count
+            stmt = f'UPDATE {self.table_name} ' +\
+                'SET quantity = quantity + :qty WHERE sku = :sku;'
+        else:
+            # SQL statement to decrease the specified product's quantity by the given
+            # count; if after subtraction the amount is less than 0, then set the quantity
+            # to be 0
+            stmt = f'UPDATE {self.table_name} ' +\
+                'SET quantity = max(0, quantity - :qty) WHERE sku = :sku;'
+
+        # attempt to execute the SQL statement and fetch results
+        try:
+            cur.execute(stmt, {'qty': count, 'sku': sku})
+            conn.commit()
+        except sqlite3.Error as error:
+            print(self._sqlite_error_msg(
+                context=f'updating product quantity ({operation}) for sku: {sku}',
+                error=error,
+                table_name=self.table_name,
+                extra=f'SQL statement: {stmt}'
+            ))
+
+        # close the database connection
+        conn.close()
 
 
 if __name__ == '__main__':
@@ -258,16 +292,17 @@ if __name__ == '__main__':
     p.import_data(data=data)
 
     # p.add_product()
-
-    specifics = p.get_specific(['449862', '502318'])
+    specifics = p.get_specific(['449862', '502318', '405080'])
     print([dict(i) for i in specifics])
 
     p.delete_products(['449862'])
-
-    specifics = p.get_specific(['449862', '502318'])
+    specifics = p.get_specific(['449862', '502318', '405080'])
     print([dict(i) for i in specifics])
 
     p.change_name(sku='502318', new_name="Changed Name Whatever 1234")
+    specifics = p.get_specific(['449862', '502318', '405080'])
+    print([dict(i) for i in specifics])
 
-    specifics = p.get_specific(['449862', '502318'])
+    p.update_quantity(sku='405080', operation='subtract', count=100)
+    specifics = p.get_specific(['449862', '502318', '405080'])
     print([dict(i) for i in specifics])

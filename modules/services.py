@@ -56,6 +56,7 @@ def _allowed_filetype(filename: str, allowed_exts: set) -> bool:
     """
     Helper function to verify a given `filename` has an extension that's within
     `allowed_exts`.
+    Ref: https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
     """
     return ('.' in filename) and (filename.rsplit('.', 1)[1].lower() in allowed_exts)
 
@@ -70,7 +71,7 @@ def import_csv(inventory: Products, post_file: FileStorage) -> Response:
 
     # check that the file is non-empty and has a valid extension; then save it temporarily
     if post_file and _allowed_filetype(filename=post_file.filename, allowed_exts={'csv'}):
-        # temp filename is `upload_<unix_timestamp>_original_filename.csv`
+        # temporary filename is `upload_<unix_timestamp>_original_filename.csv`
         saved_filename = ''.join(
             ('./upload_', str(int(time.time())), '_', secure_filename(post_file.filename))
         )

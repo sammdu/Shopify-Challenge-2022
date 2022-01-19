@@ -138,11 +138,11 @@ function setSelectOnlyButtons() {
         for (let button of spanElem.children) {
             if (button.name === 'del-selected') {
                 button.disabled = false;
-                button.className = button.className.replace("btn-disabled", "btn-red")
+                button.className = button.className.replace("btn-disabled", "btn-red");
             }
             if (button.name === 'exp-selected') {
                 button.disabled = false;
-                button.className = button.className.replace("btn-disabled", "btn-purple")
+                button.className = button.className.replace("btn-disabled", "btn-purple");
             }
         }
     }
