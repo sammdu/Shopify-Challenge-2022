@@ -3,7 +3,8 @@
     <span class="selected-ops">
         <button class="btn-green" type="button" name="add-product">Add product</button>
         <button class="btn-disabled" type="button" name="del-selected" disabled>Delete selected</button>
-        <button class="btn-disabled" type="button" name="exp-selected"  onclick="exportProducts();" disabled>
+        <button class="btn-disabled" type="button" name="exp-selected"
+            onclick="exportProducts([...selected_products]);" disabled>
             Export selected
         </button>
     </span>
@@ -14,7 +15,7 @@
         </button>
         <!-- Hidden input for file selection -->
         <input type="file" id="importCsvElem" style="display:none" onchange="importCsv();" />
-        <button type="button" name="exp-all" onclick="exportProducts();">
+        <button type="button" name="exp-all" onclick="exportProducts([]);">
             <img src="{{ url_for('static', filename='icons/export.svg') }}" alt="Export">
             Export all as CSV
         </button>

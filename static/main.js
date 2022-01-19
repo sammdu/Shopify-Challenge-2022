@@ -2,7 +2,26 @@
 const page_url_root = window.location.protocol + '//' + window.location.host;
 
 // list of product SKUs that are selected
-let selected_products = [];
+let selected_products = new Set();
+
+
+/*
+    Function that gets called upon every page load.
+*/
+function onPageLoad() {
+    // add all checked products to the set of selected products
+    checkboxElems = document.getElementsByName("select-item");
+    for (let checkbox of checkboxElems) {
+        if (checkbox.checked === true) {
+            sku = checkbox.parentNode.parentNode.id.slice(4);
+            selected_products.add(sku);
+        }
+    }
+
+    // toggle buttons that only work when at least one product is selected
+    setSelectOnlyButtons();
+}
+
 
 /*
     Calls /get-inventory and replaces the inventory table with the one returned from the
@@ -27,13 +46,14 @@ async function refreshInventory() {
     }
 }
 
+
 /*
-    Export the products specified in the global `selected_products` variable as a CSV file.
+    Export the products specified in the `selected` list parameter as a CSV file.
     Calls /export-csv, and if the list is empty, will return all products.
 */
-function exportProducts() {
+function exportProducts(selected) {
     try {
-        link = page_url_root + '/export-csv?items=' + JSON.stringify(selected_products);
+        link = page_url_root + '/export-csv?items=' + JSON.stringify(selected);
         window.open(link, '_self');
     }
     catch(e) {
@@ -72,3 +92,70 @@ async function importCsv() {
         console.log(e);
     }
 }
+
+
+/*
+    Enable/Disable buttons that can only be available when at least one product is
+    selecetd. Specifically, "Delete selected" and "Export selected".
+*/
+function setSelectOnlyButtons() {
+    spanElem = document.querySelector('span.selected-ops');
+    // enable buttons that only work when at least one product is selected
+    if (selected_products.size !== 0) {
+        for (let button of spanElem.children) {
+            if (button.name === 'del-selected') {
+                button.disabled = false;
+                button.className = button.className.replace("btn-disabled", "btn-red")
+            }
+            if (button.name === 'exp-selected') {
+                button.disabled = false;
+                button.className = button.className.replace("btn-disabled", "btn-purple")
+            }
+        }
+    }
+    // disable those buttons otherwise
+    else {
+        for (let button of spanElem.children) {
+            if (button.name === 'del-selected' || button.name === 'exp-selected') {
+                button.className = button.className = 'btn-disabled';
+                button.disabled = true;
+            }
+        }
+    }
+}
+
+
+/*
+    Triggered when a product's checkbox has been checked.
+    Includes the product within the set of `selected_products`.
+*/
+function productSelected(event) {
+    checkbox = event.target;
+    // <tr>'s ID is sliced at 4 because its format is `row-<sku>`
+    sku = checkbox.parentNode.parentNode.id.slice(4);
+    if (checkbox.checked === true) {
+        selected_products.add(sku);
+    }
+    else if (checkbox.checked === false) {
+        selected_products.delete(sku);
+    }
+
+    // toggle buttons that only work when at least one product is selected
+    setSelectOnlyButtons();
+}
+
+
+/*
+    Either select or de-select all products, depending on the boolean parameter `value`.
+*/
+function selectAllProducts(value) {
+    checkboxElems = document.getElementsByName("select-item");
+    for (let checkbox of checkboxElems) {
+        if (typeof value === 'boolean' && checkbox.checked != value) {
+            checkbox.click();
+        }
+    }
+}
+
+
+onPageLoad();

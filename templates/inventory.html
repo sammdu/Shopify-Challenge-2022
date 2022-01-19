@@ -2,7 +2,9 @@
 <table>
     <thead class="text-bold">
         <tr>
-            <th class="col-chk" scope="col"><input type="checkbox" name="select-all"></th>
+            <th class="col-chk" scope="col">
+                <input type="checkbox" name="select-all" onchange="selectAllProducts(this.checked);">
+            </th>
             <th class="col-nme" scope="col">Product Name</th>
             <th class="col-sku" scope="col">SKU</th>
             <th class="col-qty" scope="col">Quantity</th>
@@ -12,7 +14,7 @@
         {% for item in inventory.get_all() %}
         <tr id="row-{{ item['sku'] }}">
             <td class="cell-chk" scope="row" data-label="">
-                <input type="checkbox" name="select-item">
+                <input type="checkbox" name="select-item" onchange="productSelected(event);">
             </td>
 
             <td class="cell-nme" scope="row" data-label="Product Name">

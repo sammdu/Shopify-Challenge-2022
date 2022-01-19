@@ -194,10 +194,10 @@ div.inventory table td.cell-qty {
     line-height: 2em;
     display: inline-flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: stretch;
     align-content: stretch;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     column-gap: 1rem;
     row-gap: 0.5rem;
 }
