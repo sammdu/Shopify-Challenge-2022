@@ -195,6 +195,7 @@ class Products:
 
     def delete_products(self, skus: list[str]) -> None:
         """
+        Delete products given by the skus parameter in the products table.
         """
         # create a connection to the database and obtain a cursor
         conn, cur = self._get_conn_cur()
@@ -220,7 +221,28 @@ class Products:
 
     def change_name(self, sku: str, new_name: str) -> None:
         """
+        Change the name of the product identified by `sku` to the `new_name`.
         """
+        # create a connection to the database and obtain a cursor
+        conn, cur = self._get_conn_cur()
+
+        # SQL statement to update the specified product with a new name
+        stmt = f'UPDATE {self.table_name} SET name = :new_name WHERE sku = :sku;'
+
+        # attempt to execute the SQL statement and fetch results
+        try:
+            cur.execute(stmt, {'new_name': new_name, 'sku': sku})
+            conn.commit()
+        except sqlite3.Error as error:
+            print(self._sqlite_error_msg(
+                context='changing product name for sku:{sku}',
+                error=error,
+                table_name=self.table_name,
+                extra=f'Given new name: {new_name}'
+            ))
+
+        # close the database connection
+        conn.close()
 
     def update_quantity(self, sku: str, operation: str, count: int) -> None:
         """
@@ -241,6 +263,11 @@ if __name__ == '__main__':
     print([dict(i) for i in specifics])
 
     p.delete_products(['449862'])
+
+    specifics = p.get_specific(['449862', '502318'])
+    print([dict(i) for i in specifics])
+
+    p.change_name(sku='502318', new_name="Changed Name Whatever 1234")
 
     specifics = p.get_specific(['449862', '502318'])
     print([dict(i) for i in specifics])
