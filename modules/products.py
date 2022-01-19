@@ -18,7 +18,7 @@ class Products:
         - Products.import_data(data: list[dict]) -> None
         - Products.get_all() -> list[sqlite3.Row]
         - Products.get_specific(skus: list) -> list[sqlite3.Row]
-        - Products.add_product(sku: str, name: str, quantity: int) -> None
+        - Products.add_product(sku: str, name: str, quantity: int = 0) -> None:
         - Products.delete_products(skus: list[str]) -> None
         - Products.change_name(sku: str, new_name: str)
         - Products.update_quantity(sku: str, operation: str, count: int)
@@ -189,9 +189,33 @@ class Products:
 
         return results
 
-    def add_product(self, sku: str, name: str, quantity: int) -> None:
+    def add_product(self, sku: str, name: str, quantity: int = 0) -> None:
         """
+        Add a new product with a unique SKU, name, and a given quantity.
+        If quantity is not specified, default to 0.
         """
+        # create a connection to the database and obtain a cursor
+        conn, cur = self._get_conn_cur()
+
+        # SQL statement to add a new product into the `products` table
+        stmt = '''
+            INSERT INTO products(sku, name, quantity)
+            VALUES (:sku, :name, :quantity);
+        '''
+
+        # attempt to execute the SQL statement
+        try:
+            cur.execute(stmt, {'sku': sku, 'name': name, 'quantity': quantity})
+            conn.commit()
+        except sqlite3.Error as error:
+            print(self._sqlite_error_msg(
+                context=f'adding new product, sku: {sku}',
+                error=error,
+                table_name=self.table_name
+            ))
+
+        # close the database connection
+        conn.close()
 
     def delete_products(self, skus: list[str]) -> None:
         """
@@ -282,27 +306,3 @@ class Products:
 
         # close the database connection
         conn.close()
-
-
-if __name__ == '__main__':
-    from csv_utils import csv_to_list
-    data = csv_to_list("products_init.csv")
-    p = Products(db_path='products.db')
-    p.create_table()
-    p.import_data(data=data)
-
-    # p.add_product()
-    specifics = p.get_specific(['449862', '502318', '405080'])
-    print([dict(i) for i in specifics])
-
-    p.delete_products(['449862'])
-    specifics = p.get_specific(['449862', '502318', '405080'])
-    print([dict(i) for i in specifics])
-
-    p.change_name(sku='502318', new_name="Changed Name Whatever 1234")
-    specifics = p.get_specific(['449862', '502318', '405080'])
-    print([dict(i) for i in specifics])
-
-    p.update_quantity(sku='405080', operation='subtract', count=100)
-    specifics = p.get_specific(['449862', '502318', '405080'])
-    print([dict(i) for i in specifics])
