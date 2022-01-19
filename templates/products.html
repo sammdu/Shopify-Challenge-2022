@@ -1,8 +1,13 @@
 {% block products %}
 <nav>
     <span class="selected-ops">
-        <button class="btn-green" type="button" name="add-product">Add product</button>
-        <button class="btn-disabled" type="button" name="del-selected" disabled>Delete selected</button>
+        <button class="btn-green" type="button" name="add-product" onclick="addProduct();">
+            Add product
+        </button>
+        <button class="btn-disabled" type="button" name="del-selected"
+            onclick="deleteProducts([...selected_products]);" disabled>
+            Delete selected
+        </button>
         <button class="btn-disabled" type="button" name="exp-selected"
             onclick="exportProducts([...selected_products]);" disabled>
             Export selected

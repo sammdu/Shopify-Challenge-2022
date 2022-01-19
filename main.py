@@ -94,6 +94,21 @@ def import_csv():
     return resp
 
 
+@app.route('/delete-products', methods=['DELETE'])
+def delete_products():
+    """
+    Delete the specified products given by the `items` parameter.
+    `items` must be a JSON list of strings, where each string is a unique product SKU.
+    """
+    # call the delete products service to perform the export operation
+    resp: Response = services.delete_products(
+        inventory=INVENTORY,
+        items_param=request.args.get('items')
+    )
+
+    return resp
+
+
 if __name__ == '__main__':
     # create the inventory object
     INVENTORY = Products(db_path=SQLITE_DB_PATH, table_name='products')

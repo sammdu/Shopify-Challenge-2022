@@ -71,6 +71,40 @@ async function importCsv() {
 
 
 /*
+    Delete the products specified in the `selected` list parameter.
+    Calls /delete-products, and asks the user to confirm before proceeding.
+*/
+async function deleteProducts(selected) {
+    // ask user to confirm before proceeding
+    message = 'Are you sure you want to delete the selected products?\n' +
+        'This action cannot be undone.';
+    confimation = window.confirm(message);
+
+    if (confimation === true) {
+        try {
+            const response = await fetch(
+                page_url_root + '/delete-products?items=' + JSON.stringify(selected),
+                {method: 'DELETE'}
+            );
+
+            // if request was successful, refresh the inventory and deselect all products
+            if (response.status === 200) {
+                await refreshInventory();
+                selectAllProducts(false);
+            }
+            else {
+                throw response.status;
+            }
+        }
+        catch(e) {
+            alert("Deleting selected products failed. See console for details.");
+            console.log(e);
+        }
+    }
+}
+
+
+/*
     Calls /get-inventory and replaces the inventory table with the one returned from the
     backend.
 */

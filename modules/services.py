@@ -8,11 +8,22 @@ from flask import Response, make_response
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from pathlib import Path
+import traceback
 import json
 import time
 
 from modules.products import Products
 from modules.csv_utils import csv_to_list, sqlite_rows_to_csv
+
+
+def _items_param_to_list(items_param: str) -> list:
+    """
+    Converts a JSON string into a Python object, hopefully a list.
+    Raise an assertion error if the JSON string does not convert to a list.
+    """
+    items: list = json.loads(items_param)
+    assert isinstance(items, list)
+    return items
 
 
 def export_csv(inventory: Products, items_param: str, path: str) -> Response:
@@ -23,8 +34,7 @@ def export_csv(inventory: Products, items_param: str, path: str) -> Response:
 
     # try to read the list of items to export from the GET parameter `items`
     try:
-        items: list = json.loads(items_param)
-        assert isinstance(items, list)
+        items: list = _items_param_to_list(items_param)
     except Exception as err:
         print(f"---\nEndpoint: /export-csv\n{err}\n---")
         return make_response(
@@ -95,4 +105,36 @@ def import_csv(inventory: Products, post_file: FileStorage) -> Response:
     # delete the uploaded CSV file
     Path(saved_filename).unlink()
 
-    return make_response("CSV data imported successfully!", 200)
+    return make_response("CSV data successfully imported!", 200)
+
+
+def delete_products(inventory: Products, items_param: str) -> Response:
+    """
+    Delete products in `inventory` specified by `items`. `items` must be non-empty.
+    """
+    # try to read the list of items to delete from the GET parameter `items`
+    try:
+        items: list = _items_param_to_list(items_param)
+        assert items != []
+    except Exception as err:
+        print(f"---\nEndpoint: /delete-products\n{err}")
+        traceback.print_exc()
+        print("\n---")
+        return make_response(
+            "Parameter error! Must provide a non-empty JSON list of SKU strings for `items`.",
+            400
+        )
+
+    # try to delete the specified items from the inventory
+    try:
+        inventory.delete_products(items)
+    except Exception as err:
+        print(f"---\nEndpoint: /delete-products\n{err}")
+        traceback.print_exc()
+        print("\n---")
+        return make_response(
+            f"Server could not delete the specified products.\n{err}",
+            500
+        )
+
+    return make_response("Successfully deleted products!", 200)

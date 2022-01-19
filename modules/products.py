@@ -221,6 +221,8 @@ class Products:
         """
         Delete products given by the skus parameter in the products table.
         """
+        assert skus != []
+
         # create a connection to the database and obtain a cursor
         conn, cur = self._get_conn_cur()
 
