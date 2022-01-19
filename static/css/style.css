@@ -177,7 +177,7 @@ div.inventory table th.col-sku {
 }
 
 div.inventory table th.col-qty {
-    width: 18rem;
+    width: 20rem;
     min-width: 15rem;
 }
 
@@ -190,10 +190,11 @@ div.inventory table td.cell-chk {
 }
 
 div.inventory table td.cell-qty {
+    width: 100%;
     line-height: 2em;
     display: inline-flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: stretch;
     align-content: stretch;
     flex-wrap: wrap;
@@ -208,6 +209,7 @@ div.inventory table td.cell-qty span.qty-num {
 div.inventory table td.cell-qty span.qty-adj {
     height: 2em;
     flex-shrink: 0;
+    align-self: flex-end;
     display: inline-flex;
     flex-direction: row;
     justify-content: flex-start;

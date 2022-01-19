@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         {% for item in inventory.get_all() %}
-        <tr>
+        <tr id="row-{{ item['sku'] }}">
             <td class="cell-chk" scope="row" data-label="">
                 <input type="checkbox" name="select-item">
             </td>

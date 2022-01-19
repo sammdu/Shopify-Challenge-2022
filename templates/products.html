@@ -2,22 +2,26 @@
 <nav>
     <span class="selected-ops">
         <button class="btn-green" type="button" name="add-product">Add product</button>
-        <button class="btn-disabled" type="button" name="del-selected">Delete selected</button>
-        <button class="btn-disabled" type="button" name="exp-selected">Export selected</button>
+        <button class="btn-disabled" type="button" name="del-selected" disabled>Delete selected</button>
+        <button class="btn-disabled" type="button" name="exp-selected"  onclick="exportProducts();" disabled>
+            Export selected
+        </button>
     </span>
     <span class="impex-ops text-bold">
-        <button type="button" name="imp-all">
+        <button type="button" name="imp-all" onclick="document.getElementById('importCsvElem').click()">
             <img src="{{ url_for('static', filename='icons/import.svg') }}" alt="Import">
             Import from CSV
         </button>
-        <button type="button" name="exp-all">
+        <!-- Hidden input for file selection -->
+        <input type="file" id="importCsvElem" style="display:none" onchange="importCsv();" />
+        <button type="button" name="exp-all" onclick="exportProducts();">
             <img src="{{ url_for('static', filename='icons/export.svg') }}" alt="Export">
             Export all as CSV
         </button>
     </span>
 </nav>
 
-<div class="inventory">
+<div class="inventory" id="inventoryContainer">
 
     {% include 'inventory.html' %}
 

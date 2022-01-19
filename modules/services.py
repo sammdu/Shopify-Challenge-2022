@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.9
 """
-Functions that actually perform the substantial tasks in main.py, as well as any helper
-functions necessary.
+Concrete implementations of substantial functionality of endpoints in main.py.
+Also contains necessary private helper functions.
 """
 
 from flask import Response, make_response
