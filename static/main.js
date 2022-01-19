@@ -13,37 +13,13 @@ function onPageLoad() {
     checkboxElems = document.getElementsByName("select-item");
     for (let checkbox of checkboxElems) {
         if (checkbox.checked === true) {
-            sku = checkbox.parentNode.parentNode.id.slice(4);
+            sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
             selected_products.add(sku);
         }
     }
 
     // toggle buttons that only work when at least one product is selected
     setSelectOnlyButtons();
-}
-
-
-/*
-    Calls /get-inventory and replaces the inventory table with the one returned from the
-    backend.
-*/
-async function refreshInventory() {
-    try {
-        // ask the server for the inventory table
-        const response = await fetch(page_url_root + '/get-inventory');
-
-        // if request was successful, replace the inventory table
-        if (response.status === 200) {
-            container = document.getElementById('inventoryContainer');
-            container.innerHTML = await response.text();
-        }
-        else {
-            throw response.status;
-        }
-    }
-    catch(e) {
-        console.log(e);
-    }
 }
 
 
@@ -95,6 +71,63 @@ async function importCsv() {
 
 
 /*
+    Calls /get-inventory and replaces the inventory table with the one returned from the
+    backend.
+*/
+async function refreshInventory() {
+    try {
+        // ask the server for the inventory table
+        const response = await fetch(page_url_root + '/get-inventory');
+
+        // if request was successful, replace the inventory table
+        if (response.status === 200) {
+            container = document.getElementById('inventoryContainer');
+            container.innerHTML = await response.text();
+        }
+        else {
+            throw response.status;
+        }
+    }
+    catch(e) {
+        console.log(e);
+    }
+}
+
+
+/*
+    Either select or de-select all products, depending on the boolean parameter `value`.
+*/
+function selectAllProducts(value) {
+    checkboxElems = document.getElementsByName("select-item");
+    for (let checkbox of checkboxElems) {
+        if (typeof value === 'boolean' && checkbox.checked != value) {
+            checkbox.click();
+        }
+    }
+}
+
+
+/*
+    Triggered when a product's checkbox has been checked.
+    Includes the product within the set of `selected_products`.
+*/
+function productSelected(event) {
+    checkbox = event.target;
+    // <tr>'s ID is sliced at 4 because its format is `row-<sku>`
+    sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
+    if (checkbox.checked === true) {
+        selected_products.add(sku);
+    }
+    else if (checkbox.checked === false) {
+        selected_products.delete(sku);
+    }
+
+    // toggle buttons that only work when at least one product is selected
+    setSelectOnlyButtons();
+}
+
+
+/*
     Enable/Disable buttons that can only be available when at least one product is
     selecetd. Specifically, "Delete selected" and "Export selected".
 */
@@ -125,36 +158,9 @@ function setSelectOnlyButtons() {
 }
 
 
-/*
-    Triggered when a product's checkbox has been checked.
-    Includes the product within the set of `selected_products`.
-*/
-function productSelected(event) {
-    checkbox = event.target;
-    // <tr>'s ID is sliced at 4 because its format is `row-<sku>`
-    sku = checkbox.parentNode.parentNode.id.slice(4);
-    if (checkbox.checked === true) {
-        selected_products.add(sku);
-    }
-    else if (checkbox.checked === false) {
-        selected_products.delete(sku);
-    }
-
-    // toggle buttons that only work when at least one product is selected
-    setSelectOnlyButtons();
-}
-
-
-/*
-    Either select or de-select all products, depending on the boolean parameter `value`.
-*/
-function selectAllProducts(value) {
-    checkboxElems = document.getElementsByName("select-item");
-    for (let checkbox of checkboxElems) {
-        if (typeof value === 'boolean' && checkbox.checked != value) {
-            checkbox.click();
-        }
-    }
+/* Helper function that converts an inventory table's row ID to the product SKU. */
+function rowIdToSKU(rowId) {
+    return rowId.slice(4);
 }
 
 
