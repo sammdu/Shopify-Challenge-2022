@@ -182,6 +182,7 @@ div.inventory table th.col-qty {
 }
 
 div.inventory table td.cell-chk {
+    padding-top: 1.25em;
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
@@ -215,36 +216,31 @@ div.inventory table td.cell-qty span.qty-adj {
 
 /* inventory controls styling */
 
-div.inventory table button {
-    height: 1.2em;
+div.inventory table td.cell-nme button {
+    height: 100%;
     width: auto;
     vertical-align: text-bottom;
     background-color: inherit;
 }
 
-div.inventory table button img {
-    height: 100%;
-    width: auto;
-}
-
-div.inventory table button[name='edit-name'] img {
+div.inventory table td.cell-nme button img {
     filter: invert(42%) sepia(13%) saturate(2273%)
             hue-rotate(193deg) brightness(100%) contrast(86%);
 }
 
-div.inventory table button[name='edit-name']:hover img,
-div.inventory table button[name='edit-name']:focus img {
+div.inventory table td.cell-nme button:hover img,
+div.inventory table td.cell-nme button:focus img {
     filter: invert(10%) sepia(80%) saturate(2944%)
             hue-rotate(228deg) brightness(97%) contrast(90%);
 }
 
 div.inventory table span.qty-adj button {
     height: 100%;
-    padding: 0 0.25rem;
+    padding: 0 0.3rem;
 }
 
 div.inventory table span.qty-adj button img {
-    height: 70%;
+    height: 65%;
     width: auto;
 }
 
@@ -253,12 +249,25 @@ div.inventory table span.qty-adj input {
     border-radius: 0;
 }
 
+div.inventory table span.qty-adj button[name='qty-add'] {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
 div.inventory table span.qty-adj button[name='qty-submit'] {
     border-radius: 0 0.25rem 0.25rem 0
 }
 
-div.inventory table span.qty-adj button[name='qty-submit'] img {
-    filter: invert(100%);
+div.inventory table span.qty-adj button.active {
+    background-color: #5e6ebf !important;
+    color: #ffffff;
+}
+
+div.inventory table span.qty-adj button.active:hover {
+    background-color: #202e78 !important;
+}
+
+div.inventory table span.qty-adj button.active img {
+    filter: invert(100%);  /* for black icons */
 }
 
 /* footer styling */

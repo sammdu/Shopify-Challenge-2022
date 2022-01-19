@@ -18,7 +18,15 @@ def csv_to_list(path: str) -> list[dict]:
         return list(reader)
 
 
-def sqlite_rows_to_csv(results: Row) -> None:
+def sqlite_rows_to_csv(results: list[Row], path: str) -> None:
     """
-
+    Given a list of SQLite Row objects and a file path, write the list of Rows into a CSV
+    file specified by the path. Each Row is a row in the CSV file.
+    CSV headers:
+        sku,name,quantity
     """
+    headers: list = ['sku', 'name', 'quantity']
+    with open(path, 'w', newline='') as file:
+        writer: csv.DictWriter = csv.DictWriter(file, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(dict(i) for i in results)
