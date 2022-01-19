@@ -18,6 +18,7 @@ class Products:
         - Products.import_data(data: list[dict]) -> None
         - Products.get_all() -> list[sqlite3.Row]
         - Products.get_specific(skus: list) -> list[sqlite3.Row]
+        - Products.add_product(sku: str, name: str, quantity: int) -> None
         - ...
     """
 
@@ -186,6 +187,10 @@ class Products:
 
         return results
 
+    def add_product(self, sku: str, name: str, quantity: int) -> None:
+        """
+        """
+
 
 if __name__ == '__main__':
     from csv_utils import csv_to_list
@@ -193,7 +198,8 @@ if __name__ == '__main__':
     p = Products(db_path='products.db')
     p.create_table()
     p.import_data(data=data)
-    results = p.get_all()
-    print([dict(i) for i in results])
+
+    # p.add_product()
+
     specifics = p.get_specific(['449862', '502318'])
     print([dict(i) for i in specifics])
