@@ -108,6 +108,29 @@ def import_csv(inventory: Products, post_file: FileStorage) -> Response:
     return make_response("CSV data successfully imported!", 200)
 
 
+def add_product(inventory: Products, sku: str, name: str, quantity: int) -> Response:
+    """
+    Rename the product in the `inventory` identified by the `sku` into `new_name`.
+    """
+    # reject less than 0 quantities
+    if not (quantity >= 0):
+        return make_response("Quantity must >= 0", 400)
+
+    # try to change the name of the specified product in the inventory
+    try:
+        inventory.add_product(sku=sku, name=name, quantity=quantity)
+    except Exception as err:
+        print(f"---\nEndpoint: /add-product\n{err}")
+        traceback.print_exc()
+        print("\n---")
+        return make_response(
+            f"Server could not add the specified product.\n{err}",
+            500
+        )
+
+    return make_response("Successfully added the product", 200)
+
+
 def delete_products(inventory: Products, items_param: str) -> Response:
     """
     Delete products in `inventory` specified by `items`. `items` must be non-empty.

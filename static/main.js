@@ -109,9 +109,11 @@ async function deleteProducts(selected) {
 */
 async function renameProduct(event) {
     let nameElem = event.target;
+
+    // switch the product name cell's state back to show after edit is complete
     productNameSwitchState(nameElem.parentNode, 'show');
 
-    // get new name from the input and set the span content to it
+    // get new name from the input and set the span content to its value
     let new_name;
     for (let elem of nameElem.parentNode.children) {
         if (elem.nodeName === 'INPUT' && elem.name === 'product-name') {
@@ -155,7 +157,7 @@ async function renameProduct(event) {
 
 
 /*
-    Switch a product name cell's state between `edit` and `show`.
+    Switch a product name <td> cell's state between `edit` and `show`.
         - `edit` state is when the <input> element and the save button is shown
         - `show` state is when the <span> element and the edit button is shown
 */
@@ -250,7 +252,7 @@ function productSelected(event) {
 
 /*
     Enable/Disable buttons that can only be available when at least one product is
-    selecetd. Specifically, "Delete selected" and "Export selected".
+    selecetd. Specifically, "Delete selected" and "Export selected" buttons.
 */
 function setSelectOnlyButtons() {
     let spanElem = document.querySelector('span.selected-ops');

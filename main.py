@@ -94,13 +94,38 @@ def import_csv():
     return resp
 
 
+@app.route('/add-product', methods=['POST'])
+def add_product():
+    """
+    Adds a new product in the inventory.
+    JSON body format:
+    {
+        'sku': str,
+        'name': str,
+        'quantity': int
+    }
+    'quantity' >= 0
+    """
+    request_data: dict = request.get_json()
+
+    # call the add product service to insert the new product
+    resp: Response = services.add_product(
+        inventory=INVENTORY,
+        sku=request_data['sku'],
+        name=request_data['name'],
+        quantity=request_data['quantity']
+    )
+
+    return resp
+
+
 @app.route('/delete-products', methods=['DELETE'])
 def delete_products():
     """
     Delete the specified products given by the `items` parameter.
     `items` must be a JSON list of strings, where each string is a unique product SKU.
     """
-    # call the delete products service to perform the export operation
+    # call the delete products service to remove the specified product
     resp: Response = services.delete_products(
         inventory=INVENTORY,
         items_param=request.args.get('items')
@@ -121,7 +146,7 @@ def change_name():
     """
     request_data: dict = request.get_json()
 
-    # call the delete products service to perform the export operation
+    # call the change name service to rename the specified product
     resp: Response = services.change_name(
         inventory=INVENTORY,
         sku=request_data['sku'],

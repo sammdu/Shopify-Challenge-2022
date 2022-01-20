@@ -276,6 +276,7 @@ class Products:
         subtracting, or setting the quantity to the given `count`.
         """
         assert operation in {'add', 'subtract', 'set'}
+        assert count >= 0
 
         # create a connection to the database and obtain a cursor
         conn, cur = self._get_conn_cur()
