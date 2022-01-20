@@ -1,6 +1,8 @@
-# Shopify-Challenge-2022
+# Inventory Management System
 Shopify 2022 Summer Internship Technical Challenge
 
+> **TASK:** Build an inventory tracking web application for a logistics company. We are looking for a web application that meets the requirements listed below, along with one additional feature, with the options
+also listed below.
 
 ## Features
 * Basic CRUD functionality:
@@ -8,7 +10,7 @@ Shopify 2022 Summer Internship Technical Challenge
   * Edit product name and quantity
   * Delete products: via `Delete selected` button
   * View products on a web page
-* Additional functionality:
+* Additional feature:
   * One-button CSV export of product data: via `Export all as CSV`
 
 Developed using Python, SQLite database, Flask, HTML, CSS, JavaScript, and displays a web-based user interface.
