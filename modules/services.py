@@ -138,3 +138,22 @@ def delete_products(inventory: Products, items_param: str) -> Response:
         )
 
     return make_response("Successfully deleted products!", 200)
+
+
+def change_name(inventory: Products, sku: str, new_name: str) -> Response:
+    """
+    Rename the product in the `inventory` identified by the `sku` into `new_name`.
+    """
+    # try to change the name of the specified product in the inventory
+    try:
+        inventory.change_name(sku=sku, new_name=new_name)
+    except Exception as err:
+        print(f"---\nEndpoint: /change-name\n{err}")
+        traceback.print_exc()
+        print("\n---")
+        return make_response(
+            f"Server could not rename the specified product.\n{err}",
+            500
+        )
+
+    return make_response("Successfully renamed the product", 200)

@@ -109,6 +109,28 @@ def delete_products():
     return resp
 
 
+@app.route('/change-name', methods=['POST'])
+def change_name():
+    """
+    Changes the name of the product identified by the SKU.
+    JSON body format:
+    {
+        'sku': str,
+        'new_name': str
+    }
+    """
+    request_data: dict = request.get_json()
+
+    # call the delete products service to perform the export operation
+    resp: Response = services.change_name(
+        inventory=INVENTORY,
+        sku=request_data['sku'],
+        new_name=request_data['new_name']
+    )
+
+    return resp
+
+
 if __name__ == '__main__':
     # create the inventory object
     INVENTORY = Products(db_path=SQLITE_DB_PATH, table_name='products')

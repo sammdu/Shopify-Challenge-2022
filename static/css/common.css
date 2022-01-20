@@ -47,6 +47,12 @@ img.logo-small {
 
 /* input styling */
 
+input[type='text'] {
+    width: 85%;
+    font-size: inherit;
+    font-family: inherit;
+}
+
 input[type="checkbox"] {
     width: 1.5em;
     height: 1.5em;
@@ -78,6 +84,7 @@ button img {
     height: 1.2em;
     width: auto;
     transition: all 0.2s ease;
+    pointer-events: none;  /* prevent img from becoming event target */
 }
 
 button.btn-green {

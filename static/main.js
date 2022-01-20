@@ -10,10 +10,10 @@ let selected_products = new Set();
 */
 function onPageLoad() {
     // add all checked products to the set of selected products
-    checkboxElems = document.getElementsByName("select-item");
+    let checkboxElems = document.getElementsByName("select-item");
     for (let checkbox of checkboxElems) {
         if (checkbox.checked === true) {
-            sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
+            let sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
             selected_products.add(sku);
         }
     }
@@ -29,7 +29,7 @@ function onPageLoad() {
 */
 function exportProducts(selected) {
     try {
-        link = page_url_root + '/export-csv?items=' + JSON.stringify(selected);
+        let link = page_url_root + '/export-csv?items=' + JSON.stringify(selected);
         window.open(link, '_self');
     }
     catch(e) {
@@ -44,7 +44,7 @@ function exportProducts(selected) {
 */
 async function importCsv() {
     try {
-        file = document.getElementById('importCsvElem').files[0];
+        const file = document.getElementById('importCsvElem').files[0];
         const formData = new FormData();
         formData.append('file', file);
 
@@ -76,9 +76,9 @@ async function importCsv() {
 */
 async function deleteProducts(selected) {
     // ask user to confirm before proceeding
-    message = 'Are you sure you want to delete the selected products?\n' +
+    const message = 'Are you sure you want to delete the selected products?\n' +
         'This action cannot be undone.';
-    confimation = window.confirm(message);
+    let confimation = window.confirm(message);
 
     if (confimation === true) {
         try {
@@ -105,6 +105,93 @@ async function deleteProducts(selected) {
 
 
 /*
+    Rename the product which triggered this function in the products inventory.
+*/
+async function renameProduct(event) {
+    let nameElem = event.target;
+    productNameSwitchState(nameElem.parentNode, 'show');
+
+    // get new name from the input and set the span content to it
+    let new_name;
+    for (let elem of nameElem.parentNode.children) {
+        if (elem.nodeName === 'INPUT' && elem.name === 'product-name') {
+            new_name = elem.value;
+        }
+    }
+    for (let elem of nameElem.parentNode.children) {
+        if (elem.nodeName === 'SPAN' && elem.className === 'product-name') {
+            elem.textContent = new_name;
+        }
+    }
+
+    // POST request payload with necessary information for name change
+    const payload = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json;charset=UTF-8'},
+        body: JSON.stringify({
+                'sku': rowIdToSKU(nameElem.parentNode.parentNode.id),
+                'new_name': new_name
+            },
+        null, 4)
+    };
+
+    try {
+        const response = await fetch(page_url_root + '/change-name', payload);
+
+        // if request was successful, refresh the inventory
+        if (response.status === 200) {
+            await refreshInventory();
+        }
+        else {
+            throw response.status;
+        }
+    }
+    catch(e) {
+        alert("Renaming product failed. See console for details.");
+        console.log(data);
+        console.log(e);
+    }
+}
+
+
+/*
+    Switch a product name cell's state between `edit` and `show`.
+        - `edit` state is when the <input> element and the save button is shown
+        - `show` state is when the <span> element and the edit button is shown
+*/
+function productNameSwitchState(cell, state) {
+    // state can only either be 'edit' or 'show'
+    console.assert(state === 'edit' || state === 'show', 'invalid product name state');
+
+    let curr_name;
+    for (let elem of cell.children) {
+        // swap span and input elements
+        if (elem.nodeName === 'SPAN' && elem.className === 'product-name') {
+            elem.style.display = (state === 'edit' ? 'none' : 'inline');
+            curr_name = elem.textContent;
+        }
+        else if (elem.nodeName === 'INPUT' && elem.name === 'product-name') {
+            elem.style.display = (state === 'edit' ? 'inline' : 'none');
+            // when switching to edit mode, make input's value the span's value, then
+            // focus on it
+            if (state === 'edit') {
+                elem.value = curr_name;
+                elem.focus();
+            }
+        }
+
+        // swap edit and save buttons
+        else if (elem.name === 'edit-name') {
+            elem.style.display = (state === 'edit' ? 'none' : 'inline-flex');
+        }
+        else if (elem.name === 'save-name') {
+            elem.style.display = (state === 'edit' ? 'inline-flex' : 'none');
+        }
+    }
+}
+
+
+/*
     Calls /get-inventory and replaces the inventory table with the one returned from the
     backend.
 */
@@ -115,7 +202,7 @@ async function refreshInventory() {
 
         // if request was successful, replace the inventory table
         if (response.status === 200) {
-            container = document.getElementById('inventoryContainer');
+            let container = document.getElementById('inventoryContainer');
             container.innerHTML = await response.text();
         }
         else {
@@ -132,7 +219,7 @@ async function refreshInventory() {
     Either select or de-select all products, depending on the boolean parameter `value`.
 */
 function selectAllProducts(value) {
-    checkboxElems = document.getElementsByName("select-item");
+    let checkboxElems = document.getElementsByName("select-item");
     for (let checkbox of checkboxElems) {
         if (typeof value === 'boolean' && checkbox.checked != value) {
             checkbox.click();
@@ -146,9 +233,9 @@ function selectAllProducts(value) {
     Includes the product within the set of `selected_products`.
 */
 function productSelected(event) {
-    checkbox = event.target;
+    let checkbox = event.target;
     // <tr>'s ID is sliced at 4 because its format is `row-<sku>`
-    sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
+    let sku = rowIdToSKU(checkbox.parentNode.parentNode.id);
     if (checkbox.checked === true) {
         selected_products.add(sku);
     }
@@ -166,7 +253,7 @@ function productSelected(event) {
     selecetd. Specifically, "Delete selected" and "Export selected".
 */
 function setSelectOnlyButtons() {
-    spanElem = document.querySelector('span.selected-ops');
+    let spanElem = document.querySelector('span.selected-ops');
     // enable buttons that only work when at least one product is selected
     if (selected_products.size !== 0) {
         for (let button of spanElem.children) {

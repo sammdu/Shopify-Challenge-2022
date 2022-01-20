@@ -18,9 +18,15 @@
             </td>
 
             <td class="cell-nme" scope="row" data-label="Product Name">
-                {{ item['name'] }}
-                <button type="button" name="edit-name">
+                <span class="product-name">{{ item['name'] }}</span>
+                <input type="text" name="product-name" value="{{ item['name'] }}"
+                    onblur="setTimeout(productNameSwitchState, 250, this.parentNode, 'show');"
+                    style="display: none;" />
+                <button type="button" name="edit-name" onclick="productNameSwitchState(this.parentNode, 'edit');">
                     <img src="{{ url_for('static', filename='icons/edit.svg') }}" alt="edit">
+                </button>
+                <button type="button" name="save-name" onclick="renameProduct(event)" style="display: none;">
+                    <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
                 </button>
             </td>
 

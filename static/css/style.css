@@ -162,6 +162,11 @@ div.inventory table thead tr {
 
 div.inventory table tbody tr {
     border-top: 0.08rem solid #d7d8db;
+    transition: all 0.2s ease;
+}
+
+div.inventory table tbody tr:hover {
+    background-color: #fbf7ed;
 }
 
 div.inventory table th.col-chk {
