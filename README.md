@@ -17,7 +17,8 @@ Developed using Python, SQLite database, Flask, HTML, CSS, JavaScript, and displ
 
 
 ## Screenshot
-![image](https://user-images.githubusercontent.com/10665890/150269938-830b2efb-277e-4a78-85e9-cfdaf4a195bb.png)
+![Main UI Screenshot](https://user-images.githubusercontent.com/10665890/150292807-490a0a9c-8b15-4bac-a51d-79df519dc9fa.png)
+
 
 
 ## Prerequisites
