@@ -28,7 +28,8 @@
                 Set:
                 <span class="qty-and-submit">
                     <input type="number" name="quantity" min="0" />
-                    <button class="active btn-green" type="button" name="product-submit">
+                    <button class="active btn-green" type="button" name="product-submit"
+                        onclick="submitNewProduct();">
                         <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
                     </button>
                 </span>

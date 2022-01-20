@@ -113,12 +113,12 @@ def add_product(inventory: Products, sku: str, name: str, quantity: int) -> Resp
     Rename the product in the `inventory` identified by the `sku` into `new_name`.
     """
     # reject less than 0 quantities
-    if not (quantity >= 0):
+    if not (int(quantity) >= 0):
         return make_response("Quantity must >= 0", 400)
 
     # try to change the name of the specified product in the inventory
     try:
-        inventory.add_product(sku=sku, name=name, quantity=quantity)
+        inventory.add_product(sku=sku, name=name, quantity=int(quantity))
     except Exception as err:
         print(f"---\nEndpoint: /add-product\n{err}")
         traceback.print_exc()

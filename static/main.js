@@ -71,28 +71,61 @@ async function importCsv() {
 
 
 /*
-
+    Add a new product row at the top of the table and disable the "Add product" button
 */
 function addProduct() {
     // clone the new product row template and make it visible
     const newProductTmpl = document.getElementById('newProductTmpl');
     const newProductRow = newProductTmpl.cloneNode(true);
-    newProductRow.id = '';
+    newProductRow.id = 'newProductActive';
     newProductRow.style.display = 'table-row';
     newProductTmpl.parentNode.insertBefore(newProductRow, newProductTmpl.nextSibling);
 
     // disable the add product button: only add one product at a time
     setAddProductButton(false);
-
 }
 
 
 /*
-
+    Triggered by the `save` button in a new product row. Submits the new product
+    information to be inserted into the products inventory.
 */
-async function submitNewProduct(event) {
-    // enable the add product button once submission complete
-    setAddProductButton(true);
+async function submitNewProduct() {
+    // collect data from the active
+    let data = {
+        'sku': document.querySelector('#newProductActive input[name="product-sku-new"]').value,
+        'name': document.querySelector('#newProductActive input[name="product-name-new"]').value,
+        'quantity': document.querySelector('#newProductActive input[name="quantity"]').value,
+    };
+
+    // POST request payload with necessary information for new product addition
+    const payload = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json;charset=UTF-8'},
+        body: JSON.stringify(data, null, 4)
+    };
+
+    try {
+        const response = await fetch(page_url_root + '/add-product', payload);
+
+        // if successfully added a new product
+        if (response.status === 200) {
+            await refreshInventory();   // refresh the inventory
+            selectAllProducts(false);   // deselect all products
+            setAddProductButton(true);  // enable the add product button
+        }
+        else {
+            throw response.status;
+        }
+    }
+    catch(e) {
+        alert("Adding new product failed. See console for details.");
+        console.log(data);
+        console.log(e);
+    }
+
+    // toggle buttons that only work when at least one product is selected
+    setSelectOnlyButtons();
 }
 
 
