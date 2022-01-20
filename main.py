@@ -3,14 +3,19 @@
 Inventory Management System
 Shopify 2022 Summer Internship Technical Challenge
 
-Main application entry point. Serves the following endpoints:
-    - GET  /                        renders and returns the web UI HTML templates
-    - GET  /get-inventory           renders and returns the inventory table HTML
-    - GET  /export-csv   ?items=    a JSON list of skus to specify products to include in
-                                    the returned CSV file; empty list [] for all products
-    - POST /import_csv              accept a CSV file and import its contents to the
-                                    product inventory
-    -
+Main application entry point.
+Serves the following endpoints:
+    - GET       /                           > Renders and returns the web UI HTML templates
+    - GET       /get-inventory              > Renders and returns the inventory table HTML
+    - GET       /export-csv?items=          > Return a CSV file of the specified products;
+                                            empty list [] for all products
+    - POST      /import_csv                 > Accept a CSV file and import its contents to
+                                            the product inventory
+    - POST      /add-product                > Add a new product to the inventory
+    - DELETE    /delete-products?items=     > Delete a non-empty list of items from the
+                                            inventory
+    - POST      /change-name                > Chage the name of a specified product
+    - POST      /update-quantity            > Update the quantity of a specified product
 """
 # external libraries
 from flask import Flask, render_template, request, Response, make_response, send_file
@@ -151,6 +156,32 @@ def change_name():
         inventory=INVENTORY,
         sku=request_data['sku'],
         new_name=request_data['new_name']
+    )
+
+    return resp
+
+
+@app.route('/update-quantity', methods=['POST'])
+def update_quantity():
+    """
+    Updates the quantity of the product identified by the SKU.
+    JSON body format:
+    {
+        'sku': str,
+        'operation': str,
+        'count': int
+    }
+    'operation' in {'add', 'subtract', 'set'}
+    'count' >= 0
+    """
+    request_data: dict = request.get_json()
+
+    # call the change name service to rename the specified product
+    resp: Response = services.update_quantity(
+        inventory=INVENTORY,
+        sku=request_data['sku'],
+        operation=request_data['operation'],
+        count=request_data['count']
     )
 
     return resp

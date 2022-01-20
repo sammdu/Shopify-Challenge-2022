@@ -18,10 +18,10 @@ class Products:
         - Products.import_data(data: list[dict]) -> None
         - Products.get_all() -> list[sqlite3.Row]
         - Products.get_specific(skus: list) -> list[sqlite3.Row]
-        - Products.add_product(sku: str, name: str, quantity: int = 0) -> None:
+        - Products.add_product(sku: str, name: str, quantity: int = 0) -> None
         - Products.delete_products(skus: list[str]) -> None
-        - Products.change_name(sku: str, new_name: str)
-        - Products.update_quantity(sku: str, operation: str, count: int)
+        - Products.change_name(sku: str, new_name: str) -> None
+        - Products.update_quantity(sku: str, operation: str, count: int) -> None
     """
 
     db_path: str       # path to a SQLite database file

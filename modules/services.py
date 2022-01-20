@@ -128,7 +128,7 @@ def add_product(inventory: Products, sku: str, name: str, quantity: int) -> Resp
             500
         )
 
-    return make_response("Successfully added the product", 200)
+    return make_response("Successfully added the product!", 200)
 
 
 def delete_products(inventory: Products, items_param: str) -> Response:
@@ -179,4 +179,30 @@ def change_name(inventory: Products, sku: str, new_name: str) -> Response:
             500
         )
 
-    return make_response("Successfully renamed the product", 200)
+    return make_response("Successfully renamed the product!", 200)
+
+
+def update_quantity(inventory: Products, sku: str, operation: str, count: int) -> Response:
+    """
+    Updates the quantity of the product in `inventory` by either adding, subtracting, or
+    setting the quantity to `count`.
+    """
+    if operation not in {'add', 'subtract', 'set'}:
+        return make_response("`operation` must only be 'add', 'subtract', or 'set'", 400)
+
+    if not (int(count) >= 0):
+        return make_response("`count` must >= 0", 400)
+
+    # try to change the name of the specified product in the inventory
+    try:
+        inventory.update_quantity(sku=sku, operation=operation, count=int(count))
+    except Exception as err:
+        print(f"---\nEndpoint: /update-quantity\n{err}")
+        traceback.print_exc()
+        print("\n---")
+        return make_response(
+            f"Server could not update the quantity of the specified product.\n{err}",
+            500
+        )
+
+    return make_response("Successfully updated product quantity!", 200)
