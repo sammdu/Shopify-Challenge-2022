@@ -84,3 +84,11 @@ Within an activated virtual environment in the project repository, simply execut
 python3.9 ./main.py
 ```
 This will start a server at [http://127.0.0.1:5000/](http://127.0.0.1:5000/). Visit this address in your browser to see the project in action!
+
+
+## Testing
+### 1. Type verification with `mypy`
+In the project repository root, where the `mypy.ini` file is located, simply execute the following command to test for type violations:
+```bash
+mypy
+```
