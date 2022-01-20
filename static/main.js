@@ -148,8 +148,8 @@ async function deleteProducts(selected) {
 
             // if request was successful, refresh the inventory and deselect all products
             if (response.status === 200) {
-                await refreshInventory();
                 selectAllProducts(false);
+                await refreshInventory();
             }
             else {
                 throw response.status;
