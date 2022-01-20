@@ -11,6 +11,29 @@
         </tr>
     </thead>
     <tbody>
+        <tr class="new-product" style="display: none;" id="newProductTmpl">
+            <td class="cell-chk" scope="row" data-label="">
+                <button class="btn-red" type="button" name="remove-row"
+                    onclick="this.parentNode.parentNode.remove(); setAddProductButton(true);">
+                    <img src="{{ url_for('static', filename='icons/x.svg') }}" alt="remove">
+                </button>
+            </td>
+            <td class="cell-nme" scope="row" data-label="Product Name">
+                <input type="text" name="product-name-new" />
+            </td>
+            <td class="cell-sku" scope="row" data-label="SKU">
+                <input type="text" name="product-sku-new" />
+            </td>
+            <td class="cell-qty" scope="row" data-label="Quantity">
+                Set:
+                <span class="qty-and-submit">
+                    <input type="number" name="quantity" min="0" />
+                    <button class="active btn-green" type="button" name="product-submit">
+                        <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
+                    </button>
+                </span>
+            </td>
+        </tr>
         {% for item in inventory.get_all() %}
         <tr id="row-{{ item['sku'] }}">
             <td class="cell-chk" scope="row" data-label="">
@@ -46,7 +69,7 @@
                     <button class="qty-mode active" type="button" name="qty-set">
                         Set
                     </button>
-                    <input type="number" name="quantity" min="0">
+                    <input type="number" name="quantity" min="0" />
                     <button class="active" type="button" name="qty-submit">
                         <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
                     </button>

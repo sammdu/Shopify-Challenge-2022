@@ -187,6 +187,7 @@ div.inventory table th.col-qty {
 }
 
 div.inventory table td.cell-chk {
+    width: 100%;
     padding-top: 1.25em;
     display: inline-flex;
     flex-direction: row;
@@ -276,6 +277,42 @@ div.inventory table span.qty-adj button.active:hover {
 
 div.inventory table span.qty-adj button.active img {
     filter: invert(100%);  /* for black icons */
+}
+
+/* inventory new product row styling */
+
+div.inventory table tr.new-product td.cell-chk {
+    padding-top: 1rem;
+}
+
+div.inventory table tr.new-product button[name="remove-row"] {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.75em;
+}
+
+div.inventory table tr.new-product button img {
+    filter: invert(100%);
+}
+
+div.inventory table tr.new-product td {
+    line-height: 2em;
+    /* justify-content: space-between; */
+}
+
+div.inventory table tr.new-product td.cell-qty span.qty-and-submit {
+    width: 100%;
+    height: 2em;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+div.inventory table tr.new-product td.cell-qty span.qty-and-submit button {
+    height: 100%;
+    padding: 0 0.4rem;
+    border-radius: 0.25rem;
 }
 
 /* footer styling */

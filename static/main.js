@@ -71,6 +71,32 @@ async function importCsv() {
 
 
 /*
+
+*/
+function addProduct() {
+    // clone the new product row template and make it visible
+    const newProductTmpl = document.getElementById('newProductTmpl');
+    const newProductRow = newProductTmpl.cloneNode(true);
+    newProductRow.id = '';
+    newProductRow.style.display = 'table-row';
+    newProductTmpl.parentNode.insertBefore(newProductRow, newProductTmpl.nextSibling);
+
+    // disable the add product button: only add one product at a time
+    setAddProductButton(false);
+
+}
+
+
+/*
+
+*/
+async function submitNewProduct(event) {
+    // enable the add product button once submission complete
+    setAddProductButton(true);
+}
+
+
+/*
     Delete the products specified in the `selected` list parameter.
     Calls /delete-products, and asks the user to confirm before proceeding.
 */
@@ -278,6 +304,16 @@ function setSelectOnlyButtons() {
             }
         }
     }
+}
+
+
+/*
+    Enable/Disable the "Add product" button.
+*/
+function setAddProductButton(value) {
+    let button = document.querySelector('button[name="add-product"]');
+    button.disabled = (value ? false : true);
+    button.className = (value ? 'btn-green' : 'btn-disabled');
 }
 
 
