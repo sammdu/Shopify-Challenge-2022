@@ -60,7 +60,6 @@ header h3 {
 /* dashboard styling */
 
 section.dash {
-    min-height: 20rem;
     background-color: #ffffff;
     margin-bottom: 3rem;
     border-radius: 0.5rem;
@@ -313,6 +312,14 @@ div.inventory table tr.new-product td.cell-qty span.qty-and-submit button {
     height: 100%;
     padding: 0 0.4rem;
     border-radius: 0.25rem;
+}
+
+/* product count styling */
+
+section.dash div.product-count {
+    width: 100%;
+    padding: 0 1rem 1rem 1rem;
+    text-align: right;
 }
 
 /* footer styling */

@@ -32,4 +32,8 @@
     {% include 'inventory.html' %}
 
 </div>
+
+<div class="product-count">
+    There are a total of <span class="text-bold" id="productCount">{{inventory.get_all()|length}}</span> product(s).
+</div>
 {% endblock %}

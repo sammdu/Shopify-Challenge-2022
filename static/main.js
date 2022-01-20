@@ -340,6 +340,8 @@ async function refreshInventory() {
         if (response.status === 200) {
             let container = document.getElementById('inventoryContainer');
             container.innerHTML = await response.text();
+            // update product count
+            document.getElementById('productCount').textContent = document.getElementById('productTotal').textContent;
         }
         else {
             throw response.status;

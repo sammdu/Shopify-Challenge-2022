@@ -35,6 +35,7 @@
                 </span>
             </td>
         </tr>
+
         {% for item in inventory.get_all() %}
         <tr id="row-{{ item['sku'] }}">
             <td class="cell-chk" scope="row" data-label="">
@@ -80,4 +81,6 @@
         {% endfor %}
     </tbody>
 </table>
+<!-- Hidden span to communicate product total count. -->
+<span id="productTotal" style="display: none;">{{inventory.get_all()|length}}</span>
 {% endblock %}
