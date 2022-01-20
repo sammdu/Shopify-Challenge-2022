@@ -71,24 +71,8 @@ async function importCsv() {
 
 
 /*
-    Add a new product row at the top of the table and disable the "Add product" button
-*/
-function addProduct() {
-    // clone the new product row template and make it visible
-    const newProductTmpl = document.getElementById('newProductTmpl');
-    const newProductRow = newProductTmpl.cloneNode(true);
-    newProductRow.id = 'newProductActive';
-    newProductRow.style.display = 'table-row';
-    newProductTmpl.parentNode.insertBefore(newProductRow, newProductTmpl.nextSibling);
-
-    // disable the add product button: only add one product at a time
-    setAddProductButton(false);
-}
-
-
-/*
     Triggered by the `save` button in a new product row. Submits the new product
-    information to be inserted into the products inventory.
+    information to be inserted into the products inventory. Calls /add-product.
 */
 async function submitNewProduct() {
     // collect data from the active
@@ -120,12 +104,28 @@ async function submitNewProduct() {
     }
     catch(e) {
         alert("Adding new product failed. See console for details.");
-        console.log(data);
+        console.log(payload);
         console.log(e);
     }
 
     // toggle buttons that only work when at least one product is selected
     setSelectOnlyButtons();
+}
+
+
+/*
+    Add a new product row at the top of the table and disable the "Add product" button
+*/
+function addProduct() {
+    // clone the new product row template and make it visible
+    const newProductTmpl = document.getElementById('newProductTmpl');
+    const newProductRow = newProductTmpl.cloneNode(true);
+    newProductRow.id = 'newProductActive';
+    newProductRow.style.display = 'table-row';
+    newProductTmpl.parentNode.insertBefore(newProductRow, newProductTmpl.nextSibling);
+
+    // disable the add product button: only add one product at a time
+    setAddProductButton(false);
 }
 
 
@@ -165,6 +165,7 @@ async function deleteProducts(selected) {
 
 /*
     Rename the product which triggered this function in the products inventory.
+    Calls /change-name.
 */
 async function renameProduct(event) {
     let nameElem = event.target;
@@ -209,7 +210,7 @@ async function renameProduct(event) {
     }
     catch(e) {
         alert("Renaming product failed. See console for details.");
-        console.log(data);
+        console.log(payload);
         console.log(e);
     }
 }
@@ -247,6 +248,80 @@ function productNameSwitchState(cell, state) {
         }
         else if (elem.name === 'save-name') {
             elem.style.display = (state === 'edit' ? 'inline-flex' : 'none');
+        }
+    }
+}
+
+
+/*
+    Submit the quantity update operation. Calls /update-quantity.
+*/
+async function updateQuantity(event) {
+    // find the quantity mode and update count of the entry
+    let mode;  // 'add', 'sub', or 'set'; 'sub' needs to be replaced with 'subtract' below
+    let count; // integer number >= 0
+    for (let elem of event.target.parentNode.children) {
+        // get all classes of the element
+        let elemClasses = elem.className.split(' ');
+        // find the button.qty-mode that is also active
+        if (elemClasses.includes('qty-mode') && elemClasses.includes('active')) {
+            mode = elem.name.slice(4);
+        }
+        // find the input element with the count number
+        if (elem.nodeName === 'INPUT' && elem.name === 'quantity') {
+            count = elem.value;
+        }
+    }
+
+    // POST request payload with necessary information for a quantity update
+    const payload = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json;charset=UTF-8'},
+        body: JSON.stringify(
+            {
+                'sku': rowIdToSKU(event.target.parentNode.parentNode.parentNode.id),
+                'operation': (mode === 'sub' ? 'subtract' : mode),
+                'count': count
+            },
+            null,
+            4
+        )
+    };
+
+    try {
+        const response = await fetch(page_url_root + '/update-quantity', payload);
+
+        // if request was successful, refresh the inventory
+        if (response.status === 200) {
+            await refreshInventory();
+        }
+        else {
+            throw response.status;
+        }
+    }
+    catch(e) {
+        alert("Updating product quantity. See console for details.");
+        console.log(payload);
+        console.log(e);
+    }
+
+}
+
+
+/* Activate the clicked quantity button, and deactivate the rest */
+function switchQuantityMode(event) {
+    for (let elem of event.target.parentNode.children) {
+        // get all classes of the element
+        let elemClasses = elem.className.split(' ');
+
+        // for each button.qty-mode, activated the clicked button, deactivate the others
+        if (elem.nodeName === 'BUTTON' && elemClasses.includes('qty-mode')) {
+            if (elem.name === event.target.name) {
+                elem.className = elem.className + ' active';
+            }
+            else {
+                elem.className = elem.className.replace('active', '');
+            }
         }
     }
 }
@@ -340,9 +415,7 @@ function setSelectOnlyButtons() {
 }
 
 
-/*
-    Enable/Disable the "Add product" button.
-*/
+/* Enable/Disable the "Add product" button. */
 function setAddProductButton(value) {
     let button = document.querySelector('button[name="add-product"]');
     button.disabled = (value ? false : true);

@@ -61,17 +61,17 @@
             <td class="cell-qty" scope="row" data-label="Quantity">
                 <span class="qty-num">{{ item['quantity'] }}</span>
                 <span class="qty-adj">
-                    <button class="qty-mode" type="button" name="qty-add">
+                    <button class="qty-mode" type="button" name="qty-add" onclick="switchQuantityMode(event);">
                         <img src="{{ url_for('static', filename='icons/plus.svg') }}" alt="add">
                     </button>
-                    <button class="qty-mode" type="button" name="qty-sub">
+                    <button class="qty-mode" type="button" name="qty-sub" onclick="switchQuantityMode(event);">
                         <img src="{{ url_for('static', filename='icons/minus.svg') }}" alt="subtract">
                     </button>
-                    <button class="qty-mode active" type="button" name="qty-set">
+                    <button class="qty-mode active" type="button" name="qty-set" onclick="switchQuantityMode(event);">
                         Set
                     </button>
                     <input type="number" name="quantity" min="0" />
-                    <button class="active" type="button" name="qty-submit">
+                    <button class="active" type="button" name="qty-submit" onclick="updateQuantity(event);">
                         <img src="{{ url_for('static', filename='icons/save.svg') }}" alt="save">
                     </button>
                 </span>
